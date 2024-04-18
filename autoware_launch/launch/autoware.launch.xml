@@ -44,6 +44,9 @@
   <!-- Perception -->
   <arg name="perception_mode" default="lidar" description="select perception mode. camera_lidar_radar_fusion, camera_lidar_fusion, lidar_radar_fusion, lidar, radar"/>
   <arg name="traffic_light_recognition/enable_fine_detection" default="true" description="enable traffic light fine detection"/>
+  <!-- Localization -->
+  <arg name="pose_source" default="ndt" description="select pose source. ndt, yabloc, eagleye, artag"/>
+  <arg name="twist_source" default="gyro_odom" description="select twist source. gyro_odom, eagleye"/>
 
   <!-- Global parameters -->
   <group scoped="false">
@@ -89,7 +92,10 @@
 
   <!-- Localization -->
   <group if="$(var launch_localization)">
-    <include file="$(find-pkg-share autoware_launch)/launch/components/tier4_localization_component.launch.xml"/>
+    <include file="$(find-pkg-share autoware_launch)/launch/components/tier4_localization_component.launch.xml">
+      <arg name="pose_source" value="$(var pose_source)"/>
+      <arg name="twist_source" value="$(var twist_source)"/>
+    </include>
   </group>
 
   <!-- Perception -->
