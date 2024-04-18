@@ -46,6 +46,9 @@
   <!-- Auto mode setting-->
   <arg name="enable_all_modules_auto_mode" default="false" description="enable all module's auto mode"/>
   <arg name="is_simulation" default="false" description="Autoware's behavior will change depending on whether this is a simulation or not."/>
+  <!-- Localization -->
+  <arg name="pose_source" default="ndt" description="select pose source. ndt, yabloc, eagleye, artag"/>
+  <arg name="twist_source" default="gyro_odom" description="select twist source. gyro_odom, eagleye"/>
 
   <!-- Global parameters -->
   <group scoped="false">
@@ -90,7 +93,10 @@
 
   <!-- Localization -->
   <group if="$(var launch_localization)">
-    <include file="$(find-pkg-share autoware_launch)/launch/components/tier4_localization_component.launch.xml"/>
+    <include file="$(find-pkg-share autoware_launch)/launch/components/tier4_localization_component.launch.xml">
+      <arg name="pose_source" value="$(var pose_source)"/>
+      <arg name="twist_source" value="$(var twist_source)"/>
+    </include>
   </group>
 
   <!-- Perception -->
